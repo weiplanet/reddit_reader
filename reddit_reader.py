@@ -9,6 +9,8 @@ import pathlib
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:/Users/muharrem.cengiz/Desktop/remote_repos/wikireader-e385429af057.json"
 
+folder = input("folder: ")
+
 def text_to_wav(voice_name, text):
     language_code = '-'.join(voice_name.split('-')[:2])
     text_input = tts.SynthesisInput(text=text)
@@ -24,8 +26,8 @@ def text_to_wav(voice_name, text):
         voice=voice_params,
         audio_config=audio_config, )
 
-    filename = input("filename: ")
-    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/" + filename + ".wav")
+    filename = ("comment{}".format(commentCounter))
+    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/audio/" + folder + "/" + filename + ".wav")
     with open(file, 'wb') as out:
         out.write(response.audio_content)
         print(f'Audio content written to "{file}"')
@@ -56,6 +58,7 @@ for comment in submission.comments.list():
     if commentCounter == commentLimit:
         break
     submissionList.append(bod.replace("\n", ""))
+    print(submissionList[commentCounter])
+    text_to_wav("en-US-Wavenet-B", submissionList[commentCounter])
     commentCounter += 1
 
-print(submissionList)
