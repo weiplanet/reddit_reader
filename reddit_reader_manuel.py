@@ -28,3 +28,5 @@ def text_to_wav(voice_name, text):
     with open(file, 'wb') as out:
         out.write(response.audio_content)
         print(f'Audio content written to "{file}"')
+
+text_to_wav(voiceName, comment)
