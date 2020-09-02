@@ -22,13 +22,13 @@ submission_id = input("id: ")
 submission = reddit.submission(submission_id)
 submissionList = []
 submission.comments.replace_more(limit=10)
-commentLimit = 1
+commentLimit = 10
 commentCounter = 0
 for comment in submission.comments.list():
     bod = comment.body
     if commentCounter == commentLimit:
         break
-    submissionList.append(bod.strip())
+    submissionList.append(bod.replace("\n", ""))
     commentCounter += 1
 
 print(submissionList)
