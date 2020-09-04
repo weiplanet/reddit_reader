@@ -7,7 +7,10 @@ password = ""
 from google.cloud import texttospeech as tts
 import pathlib
 import os
+import screenshotter
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:/Users/muharrem.cengiz/Desktop/remote_repos/wikireader-e385429af057.json"
+
+upImage = ""
 
 folder = input("folder: ")
 
@@ -60,5 +63,6 @@ for comment in submission.comments.list():
     submissionList.append(bod.replace("\n", ""))
     print(submissionList[commentCounter])
     text_to_wav("en-US-Wavenet-B", submissionList[commentCounter])
+    screenshotter.createSS(submissionList[commentCounter, upImage])
     commentCounter += 1
 
