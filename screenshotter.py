@@ -6,7 +6,7 @@ post = "post"
 upImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postUpvoteIconInactive_n5ydt0uuj6x11.png"
 
 
-def createSS(text, upimg, downimg):
+def createSS(text, upimg, downimg, author):
     text_str = "".join(text)
     wrapped = textwrap.fill(text= text_str, width= 100)
     up = Image.open(upimg)
@@ -15,12 +15,13 @@ def createSS(text, upimg, downimg):
     fnt = ImageFont.truetype('c:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/verdana.ttf', 24)
     d = ImageDraw.Draw(img)
     d.multiline_text((350, 320), wrapped, fill=(255,255,255), font=fnt )
+    d.text((350, 262), "Posted by u/{}".format(author), fill=(128,128,128), font=fnt )
     img.paste(up, (270, 262))
     img.paste(down, (270, 320))
     imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/video1/' + reddit_ss + '.png')
     img.save(imgdir)
 
-def createPostSS(text, subName, subIcon, upimg, downimg, upvotes):
+def createPostSS(text, subName, subIcon, upimg, downimg, upvotes, author):
     text_str = "".join(text)
     wrapped = textwrap.fill(text= text_str, width= 100)
     up = Image.open(upimg)
@@ -36,5 +37,6 @@ def createPostSS(text, subName, subIcon, upimg, downimg, upvotes):
     img.paste(icon, (350, 262))
     d.text((410, 269), "r/{}".format(subName), fill=(255, 255, 255), font=fnt)
     d.text((280, 310), upvotes, fill=(255, 255, 255), font=upvote_font)
+    d.text((560, 269), "· Posted by u/{}".format(author), fill=(128,128,128), font=fnt )
     imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/video1/' + post + '.png')
     img.save(imgdir)

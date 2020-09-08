@@ -57,7 +57,7 @@ submission_id = input("id: ")
 submission = reddit.submission(submission_id)
 text_to_wav("en-US-Wavenet-B", submission.title, "post")
 print(" - post text converted to wav - ")
-screenshotter.createPostSS(submission.title, sub_input, subIcon, upImage, downImage, str(submission.ups))
+screenshotter.createPostSS(submission.title, sub_input, subIcon, upImage, downImage, str(submission.ups), submission.author)
 print(" - created post ss - ")
 submissionList = []
 submission.comments.replace_more(limit=10)
@@ -65,13 +65,18 @@ submission.comments.replace_more(limit=10)
 commentCounter = 0
 for comment in submission.comments.list():
     bod = comment.body
+    author = comment.author
     if commentCounter == commentLimit:
         break
     submissionList.append(bod) #.replace("\n", "")
     print(submissionList[commentCounter])
-    text_to_wav("en-US-Wavenet-B", submissionList[commentCounter], "comment{}".format(commentCounter))
+    try:
+        text_to_wav("en-US-Wavenet-B", submissionList[commentCounter], "comment{}".format(commentCounter))
+    except:
+        print("---Error: Resource Exhausted, Skipped---")
+        pass
     screenshotter.reddit_ss = ("comment {}".format(commentCounter))
-    screenshotter.createSS(submissionList[commentCounter], upImage, downImage)
+    screenshotter.createSS(submissionList[commentCounter], upImage, downImage, author)
     print(" - created comment ss -")
     commentCounter += 1
 
