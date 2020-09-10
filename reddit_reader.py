@@ -24,7 +24,8 @@ def text_to_wav(voice_name, text, filename):
         language_code=language_code,
         name=voice_name)
     audio_config = tts.AudioConfig(
-        audio_encoding=tts.AudioEncoding.LINEAR16)
+        audio_encoding=tts.AudioEncoding.LINEAR16,
+        speaking_rate=1.080)
 
     client = tts.TextToSpeechClient()
     response = client.synthesize_speech(
@@ -47,7 +48,7 @@ reddit = praw.Reddit(client_id=client_id,
 commentLimit = int(input("Comment amount: "))
 sub_input = input("subreddit: ")
 sub = reddit.subreddit(sub_input)
-sub_hot = sub.hot(limit=9)
+sub_hot = sub.hot(limit=30)
 
 for post in sub_hot:
     if not post.stickied:
@@ -55,26 +56,23 @@ for post in sub_hot:
 
 submission_id = input("id: ")
 submission = reddit.submission(submission_id)
-text_to_wav("en-US-Wavenet-B", submission.title, "post")
+text_to_wav("en-US-Wavenet-B", submission.title, "1post")
 print(" - post text converted to wav - ")
 screenshotter.createPostSS(submission.title, sub_input, subIcon, upImage, downImage, str(submission.ups), submission.author)
 print(" - created post ss - ")
 submissionList = []
 submission.comments.replace_more(limit=10)
 
+comments = submission.comments.list()
 commentCounter = 0
-for comment in submission.comments.list():
+for comment in comments:
     bod = comment.body
     author = comment.author
     if commentCounter == commentLimit:
         break
     submissionList.append(bod) #.replace("\n", "")
     print(submissionList[commentCounter])
-    try:
-        text_to_wav("en-US-Wavenet-B", submissionList[commentCounter], "comment{}".format(commentCounter))
-    except:
-        print("---Error: Resource Exhausted, Skipped---")
-        pass
+    text_to_wav("en-US-Wavenet-B", submissionList[commentCounter], "comment{}".format(commentCounter))
     screenshotter.reddit_ss = ("comment {}".format(commentCounter))
     screenshotter.createSS(submissionList[commentCounter], upImage, downImage, author)
     print(" - created comment ss -")
