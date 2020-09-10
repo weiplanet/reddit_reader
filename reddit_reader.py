@@ -15,7 +15,6 @@ downImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postDow
 subIcon = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/communityIcon_tijjpyw1qe201bg.png"
 bar = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/bar.png"
 
-folder = input("folder: ")
 
 def text_to_wav(voice_name, text, filename):
     language_code = '-'.join(voice_name.split('-')[:2])
@@ -33,7 +32,7 @@ def text_to_wav(voice_name, text, filename):
         voice=voice_params,
         audio_config=audio_config, )
 
-    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/audio/" + folder + "/" + filename + ".wav")
+    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/audio/" + filename + ".wav")
     with open(file, 'wb') as out:
         out.write(response.audio_content)
         print(f'Audio content written to "{file}"')

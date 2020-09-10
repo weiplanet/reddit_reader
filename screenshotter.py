@@ -1,4 +1,4 @@
-from pil import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 import pathlib
 import textwrap
 reddit_ss = "comment"
@@ -20,7 +20,7 @@ def createSS(text, upimg, downimg, author):
     d.text((350, 262), "Posted by u/{}".format(author), fill=(128,128,128), font=fnt )
     img.paste(up, (270, 262))
     img.paste(down, (270, 320))
-    imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/video1/' + reddit_ss + '.png')
+    imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/' + reddit_ss + '.png')
     img.save(imgdir)
 
 def createPostSS(text, subName, subIcon, upimg, downimg, upvotes, author):
@@ -43,5 +43,5 @@ def createPostSS(text, subName, subIcon, upimg, downimg, upvotes, author):
     d.text((410, 269), "r/{}".format(subName), fill=(255, 255, 255), font=fnt)
     d.text((280, 310), upvotes, fill=(255, 255, 255), font=upvote_font)
     d.text((560, 269), "· Posted by u/{}".format(author), fill=(128,128,128), font=fnt )
-    imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/video1/1' + post + '.png')
+    imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/1' + post + '.png')
     img.save(imgdir)
