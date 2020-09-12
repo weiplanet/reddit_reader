@@ -8,6 +8,10 @@ from google.cloud import texttospeech as tts
 import pathlib
 import os
 import screenshotter
+import video_creator
+import mutagen
+from mutagen.wave import WAVE
+from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:/Users/muharrem.cengiz/Desktop/remote_repos/wikireader-e385429af057.json"
 
 upImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postUpvoteIconInactive_n5ydt0uuj6x11.png"
@@ -24,7 +28,7 @@ def text_to_wav(voice_name, text, filename):
         name=voice_name)
     audio_config = tts.AudioConfig(
         audio_encoding=tts.AudioEncoding.LINEAR16,
-        speaking_rate=1.080)
+        speaking_rate=1.080) #audio_encoding=
 
     client = tts.TextToSpeechClient()
     response = client.synthesize_speech(
@@ -72,8 +76,16 @@ for comment in comments:
     submissionList.append(bod) #.replace("\n", "")
     print(submissionList[commentCounter])
     text_to_wav("en-US-Wavenet-B", submissionList[commentCounter], "comment{}".format(commentCounter))
-    screenshotter.reddit_ss = ("comment {}".format(commentCounter))
+    screenshotter.reddit_ss = ("comment{}".format(commentCounter))
+    imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/' + screenshotter.reddit_ss)
     screenshotter.createSS(submissionList[commentCounter], upImage, downImage, author)
     print(" - created comment ss -")
+    path = os.path.join(SAMPLE_INPUTS, "audio")
+    file = os.path.join(path, "comment{}".format(commentCounter) + ".wav")
+    aud = WAVE(file)
+    audio_info = aud.info
+    duration = int(audio_info.length)
+    output_video = os.path.join(SAMPLE_OUTPUTS, "output{}.mp4".format(commentCounter))
+    video_creator.makeVideo(imgdir, file, output_video, duration)
     commentCounter += 1
 
