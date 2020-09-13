@@ -24,7 +24,7 @@ def text_to_wav(voice_name, text):
         audio_config=audio_config, )
 
     
-    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/audio/video1/" + filename + ".wav")
+    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/videolar/YRFP/" + filename + ".wav")
     with open(file, 'wb') as out:
         out.write(response.audio_content)
         print(f'Audio content written to "{file}"')

@@ -9,6 +9,7 @@ import pathlib
 import os
 import screenshotter
 import video_creator
+from censorship import censorAudio, censorText
 import mutagen
 from mutagen.wave import WAVE
 from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS
@@ -19,6 +20,12 @@ downImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postDow
 subIcon = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/communityIcon_tijjpyw1qe201bg.png"
 bar = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/bar.png"
 
+inp = input("Create new or go with existing files? n/e: ")
+if inp == "n":
+    pass
+elif inp == "e":
+    video_creator.videomixer()
+    quit
 
 def text_to_wav(voice_name, text, filename):
     language_code = '-'.join(voice_name.split('-')[:2])
@@ -59,10 +66,18 @@ for post in sub_hot:
 
 submission_id = input("id: ")
 submission = reddit.submission(submission_id)
-text_to_wav("en-US-Wavenet-B", submission.title, "1post")
+text_to_wav("en-US-Wavenet-B", censorAudio(submission.title), "1post") #censor here
 print(" - post text converted to wav - ")
-screenshotter.createPostSS(submission.title, sub_input, subIcon, upImage, downImage, str(submission.ups), submission.author)
+screenshotter.createPostSS(censorText(submission.title), sub_input, subIcon, upImage, downImage, str(submission.ups), submission.author)#censor here
 print(" - created post ss - ")
+imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/1post')
+path = os.path.join(SAMPLE_INPUTS, "audio")
+file = os.path.join(path, "1post.wav")
+aud = WAVE(file)
+audio_info = aud.info
+duration = int(audio_info.length)
+output_video = os.path.join(SAMPLE_OUTPUTS, "1post_output.mp4")
+video_creator.makeVideo(imgdir, file, output_video, duration)
 submissionList = []
 submission.comments.replace_more(limit=10)
 
@@ -75,10 +90,15 @@ for comment in comments:
         break
     submissionList.append(bod) #.replace("\n", "")
     print(submissionList[commentCounter])
-    text_to_wav("en-US-Wavenet-B", submissionList[commentCounter], "comment{}".format(commentCounter))
-    screenshotter.reddit_ss = ("comment{}".format(commentCounter))
+    try:
+        text_to_wav("en-US-Wavenet-B", censorAudio(submissionList[commentCounter]), "comment{}".format(commentCounter)) #censor here
+    except:
+        print("Resource Exhausted, skipping")
+        commentCounter += 1
+        continue
+    screenshotter.reddit_ss = ("comment{}".format(commentCounter)) 
     imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/' + screenshotter.reddit_ss)
-    screenshotter.createSS(submissionList[commentCounter], upImage, downImage, author)
+    screenshotter.createSS(censorText(submissionList[commentCounter]), upImage, downImage, author) #censor here
     print(" - created comment ss -")
     path = os.path.join(SAMPLE_INPUTS, "audio")
     file = os.path.join(path, "comment{}".format(commentCounter) + ".wav")
@@ -87,5 +107,7 @@ for comment in comments:
     duration = int(audio_info.length)
     output_video = os.path.join(SAMPLE_OUTPUTS, "output{}.mp4".format(commentCounter))
     video_creator.makeVideo(imgdir, file, output_video, duration)
+    video_creator.flash(output_video, output_video)
     commentCounter += 1
 
+video_creator.videomixer()
