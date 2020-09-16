@@ -34,12 +34,12 @@ def videomixer():
     output_clip.write_videofile(outputdir)
 
 def outro():
-    outroimg = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/output0_Moment.jpg"
-    audio = AudioFileClip("C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/outroaud.wav")
-    music = AudioFileClip("C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/jazz_lounge.mp3")
+    outroimg = "resources/images/outputMoment.jpg"
+    audio = AudioFileClip("resources/sounds/outroaud.wav")
+    music = AudioFileClip("resources/sounds/jazz_lounge.mp3")
     final_audio = CompositeAudioClip([audio, music])
     outro = ImageClip(outroimg)
     outro = outro.set_fps(24)
     outro = outro.set_audio(final_audio)
     outro = outro.set_duration(30)
-    outro.write_videofile("outro.mp4")
+    outro.write_videofile("resources/vids/outro.mp4")

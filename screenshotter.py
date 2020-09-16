@@ -4,8 +4,9 @@ import textwrap
 import os
 reddit_ss = "comment"
 post = "post"
-upImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postUpvoteIconInactive_n5ydt0uuj6x11.png"
-watermark = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/bg_watermark.png"
+upImage = "resources/images/upvoteIcon.png"
+watermark = "resources/images/bg_watermark.png"
+font = 'resources/fonts/verdana.ttf'
 
 def createSS(text, upimg, downimg, author):
     text_str = "".join(text)
@@ -15,7 +16,7 @@ def createSS(text, upimg, downimg, author):
     img = Image.new('RGB', (1920, 1080), color = 'rgb(26, 26, 27)')
     wm = Image.open(watermark)
     img.paste(wm, (0, 0))
-    fnt = ImageFont.truetype('c:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/verdana.ttf', 24)
+    fnt = ImageFont.truetype(font, 24)
     d = ImageDraw.Draw(img)
     d.multiline_text((350, 320), wrapped, fill=(255,255,255), font=fnt )
     d.text((350, 262), "Posted by u/{}".format(author), fill=(128,128,128), font=fnt )
@@ -35,8 +36,8 @@ def createPostSS(text, subName, subIcon, upimg, downimg, upvotes, author):
     img = Image.new('RGB', (1920, 1080), color = 'rgb(26, 26, 27)')
     wm = Image.open(watermark)
     img.paste(wm, (0, 0))
-    fnt = ImageFont.truetype('c:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/verdana.ttf', 24)
-    upvote_font = ImageFont.truetype('c:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/verdana.ttf', 15)
+    fnt = ImageFont.truetype(font, 24)
+    upvote_font = ImageFont.truetype(font, 15)
     d = ImageDraw.Draw(img)
     d.multiline_text((350, 320), wrapped, fill=(255,255,255), font=fnt )
     img.paste(up, (270, 262))

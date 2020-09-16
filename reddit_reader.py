@@ -15,10 +15,10 @@ from mutagen.wave import WAVE
 from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:/Users/muharrem.cengiz/Desktop/remote_repos/wikireader-e385429af057.json"
 
-upImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postUpvoteIconInactive_n5ydt0uuj6x11.png"
-downImage = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/postDownvoteIconInactive_cnbj1c0wj6x11.png"
-subIcon = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/communityIcon_tijjpyw1qe201bg.png"
-bar = "C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/bar.png"
+upImage = "resources/images/upvoteIcon.png"
+downImage = "resources/images/downvoteIcon.png"
+subIcon = "resources/images/subIcon.png"
+bar = "resources/images/bar.png"
 
 inp = input("Create new or go with existing files? n/e: ")
 if inp == "n":
