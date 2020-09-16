@@ -12,13 +12,13 @@ import video_creator
 from censorship import censorAudio, censorText
 import mutagen
 from mutagen.wave import WAVE
-from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="C:/Users/muharrem.cengiz/Desktop/remote_repos/wikireader-e385429af057.json"
+from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS, RESOURCES
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=""
 
-upImage = "resources/images/upvoteIcon.png"
-downImage = "resources/images/downvoteIcon.png"
-subIcon = "resources/images/subIcon.png"
-bar = "resources/images/bar.png"
+upImage = pathlib.Path(RESOURCES + "/images/upvoteIcon.png")
+downImage = pathlib.Path(RESOURCES + "/images/downvoteIcon.png")
+subIcon = pathlib.Path(RESOURCES + "/images/subIcon.png")
+bar = pathlib.Path(RESOURCES + "/images/bar.png")
 
 inp = input("Create new or go with existing files? n/e: ")
 if inp == "n":
@@ -35,7 +35,7 @@ def text_to_wav(voice_name, text, filename):
         name=voice_name)
     audio_config = tts.AudioConfig(
         audio_encoding=tts.AudioEncoding.LINEAR16,
-        speaking_rate=1.080) #audio_encoding=
+        speaking_rate=1.080)
 
     client = tts.TextToSpeechClient()
     response = client.synthesize_speech(
@@ -43,7 +43,7 @@ def text_to_wav(voice_name, text, filename):
         voice=voice_params,
         audio_config=audio_config, )
 
-    file = pathlib.Path("C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/audio/" + filename + ".wav")
+    file = pathlib.Path(SAMPLE_INPUTS + "/audio/" + filename + ".wav")
     with open(file, 'wb') as out:
         out.write(response.audio_content)
         print(f'Audio content written to "{file}"')
@@ -51,7 +51,7 @@ def text_to_wav(voice_name, text, filename):
 
 reddit = praw.Reddit(client_id=client_id,
                     client_secret=client_secret,
-                    username=username",
+                    username=username,
                     password=password,
                     user_agent="reddit_reader")
 
@@ -70,7 +70,7 @@ text_to_wav("en-US-Wavenet-B", censorAudio(submission.title), "1post") #censor h
 print(" - post text converted to wav - ")
 screenshotter.createPostSS(censorText(submission.title), sub_input, subIcon, upImage, downImage, str(submission.ups), submission.author)#censor here
 print(" - created post ss - ")
-imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/1post')
+imgdir = pathlib.Path(SAMPLE_INPUTS + '/imgs/1post')
 path = os.path.join(SAMPLE_INPUTS, "audio")
 file = os.path.join(path, "1post.wav")
 aud = WAVE(file)
@@ -97,7 +97,7 @@ for comment in comments:
         commentCounter += 1
         continue
     screenshotter.reddit_ss = ("comment{}".format(commentCounter)) 
-    imgdir = pathlib.Path('C:/Users/muharrem.cengiz/Desktop/remote_repos/reddit_reader/data/samples/inputs/imgs/' + screenshotter.reddit_ss)
+    imgdir = pathlib.Path(SAMPLE_INPUTS + '/imgs/' + screenshotter.reddit_ss)
     screenshotter.createSS(censorText(submissionList[commentCounter]), upImage, downImage, author) #censor here
     print(" - created comment ss -")
     path = os.path.join(SAMPLE_INPUTS, "audio")

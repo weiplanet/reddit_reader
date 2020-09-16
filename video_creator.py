@@ -1,8 +1,11 @@
 import os
 from moviepy.editor import ImageSequenceClip, AudioFileClip, concatenate_videoclips, VideoFileClip, ImageClip, CompositeAudioClip
 from PIL import Image
-from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS
+from conf import SAMPLE_INPUTS, SAMPLE_OUTPUTS, RESOURCES
+import pathlib
+import getpass
 
+User = getpass.getuser()
 ss_dir = os.path.join(SAMPLE_INPUTS, "imgs")
 audio_dir = os.path.join(SAMPLE_INPUTS, "audio")
 output_video = os.path.join(SAMPLE_OUTPUTS, "output.mp4")
@@ -24,7 +27,7 @@ def flash(comment, outputdir):
 
 def videomixer():
     outputList = []
-    outputdir = "C:/Users/muharrem.cengiz/Desktop/video.mp4"
+    outputdir = pathlib.Path("C:/Users/" + User + "/Desktop/video.mp4")
     for filename in os.listdir(SAMPLE_OUTPUTS):
         print(filename)
         file = os.path.join(SAMPLE_OUTPUTS, filename)
@@ -34,12 +37,12 @@ def videomixer():
     output_clip.write_videofile(outputdir)
 
 def outro():
-    outroimg = "resources/images/outputMoment.jpg"
-    audio = AudioFileClip("resources/sounds/outroaud.wav")
-    music = AudioFileClip("resources/sounds/jazz_lounge.mp3")
+    outroimg = pathlib.Path(RESOURCES + "/images/outputMoment.jpg")
+    audio = AudioFileClip(pathlib.Path(RESOURCES + "/sounds/outroaud.wav"))
+    music = AudioFileClip(pathlib.Path(RESOURCES + "/sounds/jazz_lounge.mp3"))
     final_audio = CompositeAudioClip([audio, music])
     outro = ImageClip(outroimg)
     outro = outro.set_fps(24)
     outro = outro.set_audio(final_audio)
     outro = outro.set_duration(30)
-    outro.write_videofile("resources/vids/outro.mp4")
+    outro.write_videofile(pathlib.Path(RESOURCES + "/vids/outro.mp4"))
